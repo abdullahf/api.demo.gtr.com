@@ -1,6 +1,7 @@
 const express = require("express");
 const route = express.Router();
 const CaseStudyController = require("../controllers/caseStudy");
+const { check, validationResult } = require("express-validator");
 
 // Route for case study api.
 route.post(

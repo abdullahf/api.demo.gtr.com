@@ -1,7 +1,7 @@
 require("dotenv").config();
 const Query = require("./query");
 const { MongoClient } = require("mongodb");
-const { check } = require("express-validator");
+const { check, validationResult } = require("express-validator");
 
 // Setup mongodb client
 const client = new MongoClient(process.env.MONGO_DB_URL, {
@@ -20,7 +20,7 @@ exports.getRecords = async (req, res, next) => {
     records: [],
   };
 
-  // Construct mondodb pipeline expression from resquest parameter. 
+  // Construct mondodb pipeline expression from resquest parameter.
   let query = Query.query(startDate, endDate, minCount, maxCount);
 
   try {
@@ -41,7 +41,7 @@ exports.getRecords = async (req, res, next) => {
     console.error(error);
     // Set internal server error response code in resposne payload.
     responsePayload.status = 500;
-    // Original error response is hidden to prevent vulnerability exposer. 
+    // Original error response is hidden to prevent vulnerability exposer.
     responsePayload.msg = "error";
   } finally {
     // Close the connection when in every case.
